@@ -93,3 +93,4 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 /lesson-22-HW22TwoSum.iml
+/Lesson_22_HW22_TwoSum.iml
