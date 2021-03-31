@@ -13,7 +13,7 @@ public class HotelRelevance {
                 .filter(keyWords::contains).count();
     }
 
-    public static HashMap<String, Integer> mostPopularHotel(String text) {
+    public static String[] mostPopularHotel(String text) {
         String[] splitText = text.split("\n");
         HashMap<String, Integer> resultHM = new HashMap<>();
         String hotelId = "";
@@ -27,7 +27,10 @@ public class HotelRelevance {
             }
             resultHM.put(hotelId, resultHM.get(hotelId) + pointsFromReview(s));
         }
-        return resultHM;
+        return resultHM.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .map(Map.Entry::getKey)
+                .toArray(String[]::new);
     }
 
     /**
@@ -47,7 +50,7 @@ public class HotelRelevance {
                 .reduce(0, Integer::sum);
     }
 
-    public static HashMap<String, Integer> mostPopularHotelWithExplain(String text) {
+    public static String[] mostPopularHotelWithExplain(String text) {
         String[] splitText = text.split("\n");
         HashMap<String, Integer> resultHM = new HashMap<>();
         String hotelId = "";
@@ -71,7 +74,11 @@ public class HotelRelevance {
             System.out.println("Количество очков за обзор : " + points);
             System.out.println("***************************");
         }
-        return resultHM;
+        System.out.println(resultHM);
+        return resultHM.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .map(Map.Entry::getKey)
+                .toArray(String[]::new);
     }
 
     public static void main(String[] args) {
@@ -99,8 +106,8 @@ public class HotelRelevance {
                 "46\n" +
                 "Very friendly staff and good cost-benefit ratio. Its location is a bit far from citycenter.";
 
-        System.out.println(mostPopularHotel(text));
+        System.out.println(Arrays.toString(mostPopularHotel(text)));
 
-        System.out.println(mostPopularHotelWithExplain(text));
+        System.out.println(Arrays.toString(mostPopularHotelWithExplain(text)));
     }
 }
