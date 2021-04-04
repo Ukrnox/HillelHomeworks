@@ -1,9 +1,10 @@
 package Lesson22HW20HashMap;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class MyHashMap<K, V> implements MyMap<K, V> {
+public class MyHashMap<K, V> implements MyMap<K, V>, Iterable<MyHashMap.Entry<K, V>> {
 
     private int size = 16;
     private int entryCounter = 0;
@@ -30,39 +31,9 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         return entryCounter;
     }
 
-    private static class Entry<K, V> {
-        final K key;
-        V value;
-        Entry<K, V> next;
-        Entry<K, V> previous;
-
-        Entry(K k, V v) {
-            key = k;
-            value = v;
-        }
-
-        public K getKey() {
-            return key;
-        }
-
-        public V getValue() {
-            return value;
-        }
-
-        public void setValue(V value) {
-            this.value = value;
-        }
-
-        @Override
-        public String toString() {
-            return "[key=" + key +
-                    ", value=" + value +
-                    ']';
-        }
-    }
-
-    public MyIterator<Entry<K, V>> myIterator() {
-        return new MyIterator<>() {
+    @Override
+    public Iterator<Entry<K, V>> iterator() {
+        return new Iterator<Entry<K, V>>() {
             private Entry<K, V> currentEntry = null;
             private Entry<K, V> nextEntry = null;
             private int index = 0;
@@ -108,6 +79,9 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
                         currentEntry = nextEntry;
                         index++;
                         if (currentEntry.next == null) {
+                            if (getHash(currentEntry.key) + 1 >= size) {
+                                nextEntry = null;
+                            }
                             for (int j = getHash(currentEntry.key) + 1; j < size; j++) {
                                 if (hashTable[j] != null) {
                                     nextEntry = hashTable[j];
@@ -135,11 +109,41 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
                 entryCounter--;
             }
 
-            @Override
             public Entry<K, V> getCurrent() {
                 return currentEntry;
             }
         };
+    }
+
+    public static class Entry<K, V> {
+        private final K key;
+        private V value;
+        private Entry<K, V> next;
+        private Entry<K, V> previous;
+
+        Entry(K k, V v) {
+            key = k;
+            value = v;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+
+        public void setValue(V value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return "[key=" + key +
+                    ", value=" + value +
+                    ']';
+        }
     }
 
     private void unlink(Entry<K, V> entry) {
@@ -188,6 +192,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         return k.hashCode() % size;
     }
 
+    @Override
     public boolean containsKey(K k) {
         int hash = getHash(k);
         Entry<K, V> entry = hashTable[hash];
@@ -201,10 +206,12 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         return false;
     }
 
+    @Override
     public boolean isEmpty() {
         return entryCounter == 0;
     }
 
+    @Override
     public void put(K k, V v) {
         int hash = getHash(k);
         Entry<K, V> entry = hashTable[hash];
@@ -233,6 +240,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         }
     }
 
+    @Override
     public boolean remove(K k) {
         int hash = getHash(k);
         Entry<K, V> entry = hashTable[hash];
@@ -248,6 +256,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         return false;
     }
 
+    @Override
     public V get(K k) {
         int hash = getHash(k);
         Entry<K, V> entry = hashTable[hash];
@@ -305,7 +314,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         System.out.println(myHashMap);
         System.out.println("********************************MyIteratorTest*********************************************");
         System.out.println("Elements in HashMap: " + myHashMap.getEntryCounter());
-        MyIterator<Entry<Integer, String>> entryMyIterator = myHashMap.myIterator();
+        Iterator<Entry<Integer, String>> entryMyIterator = myHashMap.iterator();
         System.out.println(myHashMap);
         System.out.println("Test 1");
         System.out.println(myHashMap);
@@ -336,6 +345,10 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
             myHashMap2.put(random, "A" + i);
             System.out.println(Arrays.toString(myHashMap2.hashTable));
             System.out.println(myHashMap2);
+        }
+        System.out.println("***********************************Foreach loop test************************************");
+        for (Entry<Integer, String> a : myHashMap2) {
+            System.out.println(a);
         }
         System.out.println("***********************************The End of the tests************************************");
     }
