@@ -1,7 +1,7 @@
 package Lesson22HW20HashMap;
 
 public interface MyMap<K, V> {
-    void put(K k, V v);
+    V put(K k, V v);
 
     boolean isEmpty();
 
@@ -9,5 +9,5 @@ public interface MyMap<K, V> {
 
     V get(K k);
 
-    boolean remove(K k);
+    V remove(K k);
 }
