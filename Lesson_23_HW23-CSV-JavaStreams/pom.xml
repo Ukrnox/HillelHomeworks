@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.hillel</groupId>
-  <artifactId>Lesson_22_HW23-CSV-JavaStreams</artifactId>
+  <artifactId>Lesson_23_HW23-CSV-JavaStreams</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>Lesson_22_HW23-CSV-JavaStreams</name>
+  <name>Lesson_23_HW23-CSV-JavaStreams</name>
   <url>http://www.example.com</url>
 
   <properties>
@@ -18,6 +18,14 @@
   </properties>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.18</version>
+      <scope>provided</scope>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
