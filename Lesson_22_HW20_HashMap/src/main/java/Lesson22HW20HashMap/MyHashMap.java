@@ -1,6 +1,5 @@
 package Lesson22HW20HashMap;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -21,6 +20,64 @@ public class MyHashMap<K, V> implements MyMap<K, V>, Iterable<MyHashMap.Entry<K,
     public MyHashMap(int initSize) {
         hashTable = new Entry[initSize];
         size = initSize;
+    }
+
+    public V merge(K kay, V newVal, MyBiFunction<? super V, ? super V, ? extends V> mergeFunk) {
+        if (newVal == null || mergeFunk == null)
+            throw new NullPointerException();
+        if (containsKey(kay)) {
+            V apply = mergeFunk.apply(get(kay), newVal);
+            put(kay, apply);
+            return apply;
+        }
+        return null;
+    }
+
+    public V getOrDefault(K key, V defaultVal) {
+        V val = get(key);
+        if (val == null) {
+            return defaultVal;
+        } else return val;
+    }
+
+    public V remove(K kay, V value) {
+        if (containsKey(kay)) {
+            if (get(kay).equals(value)) {
+                return remove(kay);
+            }
+        }
+        return null;
+    }
+
+    public V putIfAbsent(K k, V v) {
+        if (!containsKey(k)) {
+            return put(k, v);
+        }
+        return null;
+    }
+
+    public V computeIfPresent(K key, MyBiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+        if (remappingFunction == null) {
+            throw new NullPointerException();
+        }
+        V computeVal = null;
+        if (containsKey(key)) {
+            computeVal = remappingFunction.apply(key, get(key));
+            put(key, computeVal);
+        }
+        return computeVal;
+    }
+
+    public V computeIfAbsent(K key, MyFunction<? super K, ? extends V> mappingFunction) {
+        if (mappingFunction == null) {
+            throw new NullPointerException();
+        }
+        V computeVal = null;
+        if (!containsKey(key)) {
+            computeVal = mappingFunction.apply(key);
+            put(key, computeVal);
+        }
+        return computeVal;
     }
 
     public int getSize() {
@@ -51,6 +108,23 @@ public class MyHashMap<K, V> implements MyMap<K, V>, Iterable<MyHashMap.Entry<K,
                 return nextEntry != null;
             }
 
+            private Entry<K, V> findNextEntryInArray(int indexOfCurrentEntry) {
+                if (indexOfCurrentEntry + 1 >= size) {
+                    nextEntry = null;
+                    return currentEntry;
+                } else {
+                    for (int j = indexOfCurrentEntry + 1; j < size; j++) {
+                        if (hashTable[j] != null) {
+                            nextEntry = hashTable[j];
+                            return currentEntry;
+                        } else {
+                            nextEntry = null;
+                        }
+                    }
+                }
+                return currentEntry;
+            }
+
             @Override
             public Entry<K, V> next() {
                 if (!hasNext()) {
@@ -62,12 +136,7 @@ public class MyHashMap<K, V> implements MyMap<K, V>, Iterable<MyHashMap.Entry<K,
                             currentEntry = hashTable[i];
                             index++;
                             if (currentEntry.next == null) {
-                                for (int j = i + 1; j < size; j++) {
-                                    if (hashTable[j] != null) {
-                                        nextEntry = hashTable[j];
-                                        return currentEntry;
-                                    }
-                                }
+                                return findNextEntryInArray(i);
                             } else {
                                 nextEntry = currentEntry.next;
                             }
@@ -79,21 +148,11 @@ public class MyHashMap<K, V> implements MyMap<K, V>, Iterable<MyHashMap.Entry<K,
                         currentEntry = nextEntry;
                         index++;
                         if (currentEntry.next == null) {
-                            if (getHash(currentEntry.key) + 1 >= size) {
-                                nextEntry = null;
-                            }
-                            for (int j = getHash(currentEntry.key) + 1; j < size; j++) {
-                                if (hashTable[j] != null) {
-                                    nextEntry = hashTable[j];
-                                    return currentEntry;
-                                } else {
-                                    nextEntry = null;
-                                }
-                            }
+                            return findNextEntryInArray(getHash(currentEntry.key));
                         } else {
                             nextEntry = currentEntry.next;
+                            return currentEntry;
                         }
-                        return currentEntry;
                     }
                 }
                 return null;
@@ -212,20 +271,20 @@ public class MyHashMap<K, V> implements MyMap<K, V>, Iterable<MyHashMap.Entry<K,
     }
 
     @Override
-    public void put(K k, V v) {
+    public V put(K k, V v) {
         int hash = getHash(k);
         Entry<K, V> entry = hashTable[hash];
 
         if (entry != null) {
             if (entry.key.equals(k)) {
                 entry.value = v;
-                return;
+                return entry.value;
             } else {
                 while (entry.next != null) {
                     entry = entry.next;
                     if (entry.key.equals(k)) {
                         entry.value = v;
-                        return;
+                        return entry.value;
                     }
                 }
                 entry.next = new Entry<>(k, v);
@@ -238,10 +297,11 @@ public class MyHashMap<K, V> implements MyMap<K, V>, Iterable<MyHashMap.Entry<K,
         if (entryCounter > size * loadFactor / 100) {
             increaseCapacity();
         }
+        return v;
     }
 
     @Override
-    public boolean remove(K k) {
+    public V remove(K k) {
         int hash = getHash(k);
         Entry<K, V> entry = hashTable[hash];
 
@@ -249,17 +309,16 @@ public class MyHashMap<K, V> implements MyMap<K, V>, Iterable<MyHashMap.Entry<K,
             if (entry.key.equals(k)) {
                 unlink(entry);
                 entryCounter--;
-                return true;
+                return entry.value;
             }
             entry = entry.next;
         }
-        return false;
+        return null;
     }
 
     @Override
     public V get(K k) {
-        int hash = getHash(k);
-        Entry<K, V> entry = hashTable[hash];
+        Entry<K, V> entry = hashTable[getHash(k)];
 
         while (entry != null) {
             if (entry.key.equals(k)) {
@@ -289,67 +348,38 @@ public class MyHashMap<K, V> implements MyMap<K, V>, Iterable<MyHashMap.Entry<K,
     }
 
     public static void main(String[] args) {
-        System.out.println("******************Put and remove tests**************************");
         MyHashMap<Integer, String> myHashMap = new MyHashMap<>();
         myHashMap.put(1, "A");
-        myHashMap.put(10001, "A1");
+        myHashMap.put(4, "A1");
+        myHashMap.put(5, "A2");
+        System.out.println("****************** putIfAbsent test **************************");
+        System.out.println(myHashMap);
+        for (int i = 4; i < 8; i++) {
+            myHashMap.putIfAbsent(i, " putIfAbsent ");
+        }
+        System.out.println(myHashMap);
+        System.out.println("****************** computeIfPresent &  computeIfAbsent test **************************");
+        System.out.println(myHashMap);
+        for (int i = 0; i < 10; i++) {
+            myHashMap.computeIfPresent(i, (k, val) -> val + " ++++++ " + k);
+            myHashMap.computeIfAbsent(i, (k) -> k + " ------ ");
+        }
+        System.out.println(myHashMap);
+        System.out.println("****************** remove(K kay, V val) test**************************");
         myHashMap.put(20001, "A2");
-        myHashMap.put(30001, "A3");
-        myHashMap.put(2, "B");
-        myHashMap.put(3, "C");
-        myHashMap.put(4, "C");
-        myHashMap.put(5, "C");
-        myHashMap.put(6, "C");
-        myHashMap.put(7, "C");
-        myHashMap.put(9, "C");
+        myHashMap.put(30001, "C1");
         System.out.println(myHashMap);
-        System.out.println("Remove key 20001: ");
-        myHashMap.remove(20001);
+        System.out.println(myHashMap.remove(20001, "A2"));
+        System.out.println(myHashMap.remove(30001, "A2"));
         System.out.println(myHashMap);
-        System.out.println("Put new element(21) with key 1: ");
-        myHashMap.put(1, "21");
+        System.out.println("****************** getOrDefault test************************************");
         System.out.println(myHashMap);
-        System.out.println("Put new element(A22) with key 30001: ");
-        myHashMap.put(30001, "A22");
+        System.out.println(myHashMap.getOrDefault(3, "default"));
+        System.out.println(myHashMap.getOrDefault(19, "default"));
         System.out.println(myHashMap);
-        System.out.println("********************************MyIteratorTest*********************************************");
-        System.out.println("Elements in HashMap: " + myHashMap.getEntryCounter());
-        Iterator<Entry<Integer, String>> entryMyIterator = myHashMap.iterator();
+        System.out.println("****************** merge test******************************************");
         System.out.println(myHashMap);
-        System.out.println("Test 1");
+        System.out.println(myHashMap.merge(1, " New Val", (oldVal, newVal) -> oldVal + " " + newVal));
         System.out.println(myHashMap);
-        System.out.println("remove: ");
-        System.out.println(entryMyIterator.next());
-        entryMyIterator.remove();
-        System.out.println(myHashMap);
-        System.out.println("Test 2");
-        System.out.println(myHashMap);
-        System.out.println("remove: ");
-        System.out.println(entryMyIterator.next());
-        entryMyIterator.remove();
-        System.out.println(myHashMap);
-        System.out.println("Test 3");
-        System.out.println(myHashMap);
-        System.out.println("remove: ");
-        System.out.println(entryMyIterator.next());
-        entryMyIterator.remove();
-        System.out.println(myHashMap);
-        System.out.println("Elements in HashMap: " + myHashMap.getEntryCounter());
-        System.out.println("********************************Test of increaseCapacity()*********************************");
-        MyHashMap<Integer, String> myHashMap2 = new MyHashMap<>();
-        int random;
-        for (int i = 0; i < 16; i++) {
-            System.out.println("Loop #" + (i + 1));
-            random = (int) (Math.random() * 100);
-            System.out.println("New key: " + random);
-            myHashMap2.put(random, "A" + i);
-            System.out.println(Arrays.toString(myHashMap2.hashTable));
-            System.out.println(myHashMap2);
-        }
-        System.out.println("***********************************Foreach loop test************************************");
-        for (Entry<Integer, String> a : myHashMap2) {
-            System.out.println(a);
-        }
-        System.out.println("***********************************The End of the tests************************************");
     }
 }
