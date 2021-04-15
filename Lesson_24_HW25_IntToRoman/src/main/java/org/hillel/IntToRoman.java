@@ -7,7 +7,8 @@ public class IntToRoman
     private static String lessThenTen(int num)
     {
         String result = "";
-        switch (num) {
+        switch (num)
+        {
             case 1:
                 result = "I";
                 break;
@@ -187,48 +188,43 @@ public class IntToRoman
         romeMap.put('C', 100);
         romeMap.put('D', 500);
         romeMap.put('M', 1000);
+        boolean checkNextPosition;
         for (int i = 0; i < romanArray.length; i++)
         {
-            if (i + 1 > romanArray.length - 1)
+            checkNextPosition = i + 1 < romanArray.length;
+            if (checkNextPosition && romanArray[i] == 'I' && romanArray[i + 1] == 'V')
             {
-                result += romeMap.get(romanArray[i]);
+                result += 4;
+                i++;
+            }
+            else if (checkNextPosition && romanArray[i] == 'I' && romanArray[i + 1] == 'X')
+            {
+                result += 9;
+                i++;
+            }
+            else if (checkNextPosition && romanArray[i] == 'X' && romanArray[i + 1] == 'L')
+            {
+                result += 40;
+                i++;
+            }
+            else if (checkNextPosition && romanArray[i] == 'X' && romanArray[i + 1] == 'C')
+            {
+                result += 90;
+                i++;
+            }
+            else if (checkNextPosition && romanArray[i] == 'C' && romanArray[i + 1] == 'D')
+            {
+                result += 400;
+                i++;
+            }
+            else if (checkNextPosition && romanArray[i] == 'C' && romanArray[i + 1] == 'M')
+            {
+                result += 900;
+                i++;
             }
             else
-                {
-                if (romanArray[i] == 'I' && romanArray[i + 1] == 'V')
-                {
-                    result += 4;
-                    i++;
-                }
-                else if (romanArray[i] == 'I' && romanArray[i + 1] == 'X')
-                {
-                    result += 9;
-                    i++;
-                }
-                else if (romanArray[i] == 'X' && romanArray[i + 1] == 'L')
-                {
-                    result += 40;
-                    i++;
-                }
-                else if (romanArray[i] == 'X' && romanArray[i + 1] == 'C')
-                {
-                    result += 90;
-                    i++;
-                }
-                else if (romanArray[i] == 'C' && romanArray[i + 1] == 'D')
-                {
-                    result += 400;
-                    i++;
-                }
-                else if (romanArray[i] == 'C' && romanArray[i + 1] == 'M')
-                {
-                    result += 900;
-                    i++;
-                }
-                else
-                {
-                    result += romeMap.get(romanArray[i]);
-                }
+            {
+                result += romeMap.get(romanArray[i]);
             }
         }
         return result;
