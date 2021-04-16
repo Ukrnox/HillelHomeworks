@@ -92,6 +92,4 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
-/Lesson_23_HW23-CSV-JavaStreams.iml
-/Lesson_24_HW25_IntToRoman.iml
-/Lesson_24_HW26_HTMLColoRs.iml
+*.iml
