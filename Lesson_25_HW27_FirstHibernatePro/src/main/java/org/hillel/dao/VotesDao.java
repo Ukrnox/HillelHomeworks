@@ -62,7 +62,8 @@ public class VotesDao implements Dao<Votes>
     }
 
     @Override
-    public void update(Votes entity) {
+    public void update(Votes entity)
+    {
         try (Session session = sessionFactory.openSession())
         {
             session.beginTransaction();
