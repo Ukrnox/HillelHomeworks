@@ -40,13 +40,16 @@ public class VotesDao implements Dao<Votes>
     @Override
     public void create(Votes entity)
     {
-        try (Session session = sessionFactory.openSession())
+        if(entity != null)
         {
-            session.beginTransaction();
+            try (Session session = sessionFactory.openSession())
+            {
+                session.beginTransaction();
 
-            session.save(entity);
+                session.save(entity);
 
-            session.getTransaction().commit();
+                session.getTransaction().commit();
+            }
         }
     }
 
@@ -64,13 +67,16 @@ public class VotesDao implements Dao<Votes>
     @Override
     public void update(Votes entity)
     {
-        try (Session session = sessionFactory.openSession())
+        if(entity != null)
         {
-            session.beginTransaction();
+            try (Session session = sessionFactory.openSession())
+            {
+                session.beginTransaction();
 
-            session.update(entity);
+                session.update(entity);
 
-            session.getTransaction().commit();
+                session.getTransaction().commit();
+            }
         }
     }
 

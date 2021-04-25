@@ -60,7 +60,7 @@ public class Main
         Topic topic = new Topic();
         topic.setTitle("FirstTopic");
         topic.setDateCreated(LocalDateTime.now());
-        TopicDao td = new TopicDao();
+        TopicDao topicDao = new TopicDao();
         topic.setGroup(groupDao.read(1));
 
         User readUser = userDao.read(1);
@@ -68,7 +68,7 @@ public class Main
         readUser.getTopics().add(topic);
         userDao.update(readUser);
 
-        System.out.println(td.read(1));
+        System.out.println(topicDao.read(1));
         System.out.println();
         System.out.println("*************** createPost ******************************"+"\n");
 
@@ -78,13 +78,13 @@ public class Main
         post.setText("FirstPost");
         post.setDateCreated(LocalDateTime.now());
         post.setAuthor(userDao.read(1));
-        post.setTopic(td.read(1));
+        post.setTopic(topicDao.read(1));
 
         Post post2 = new Post();
         post2.setText("SecondPost");
         post2.setDateCreated(LocalDateTime.now());
         post2.setAuthor(userDao.read(1));
-        post2.setTopic(td.read(1));
+        post2.setTopic(topicDao.read(1));
 
         postDao.create(post);
         postDao.create(post2);
@@ -111,7 +111,7 @@ public class Main
         System.out.println("User#1 posts : " + userDao.read(1).getPosts() + "\n");
         System.out.println("User#1 votes : " + userDao.read(1).getVotes() + "\n");
         System.out.println("Post#1 votes : " + postDao.read(1).getVotes() + "\n");
-        System.out.println("Topic#1 posts : " + td.read(1).getPosts() + "\n");
-        System.out.println("Topic#1 author : " + td.read(1).getAuthor());
+        System.out.println("Topic#1 posts : " + topicDao.read(1).getPosts() + "\n");
+        System.out.println("Topic#1 author : " + topicDao.read(1).getAuthor());
     }
 }

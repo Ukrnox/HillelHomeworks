@@ -12,13 +12,16 @@ public class TopicDao implements Dao<Topic>
     @Override
     public void create(Topic entity)
     {
-        try (Session session = sessionFactory.openSession())
+        if(entity != null)
         {
-            session.beginTransaction();
+            try (Session session = sessionFactory.openSession())
+            {
+                session.beginTransaction();
 
-            session.save(entity);
+                session.save(entity);
 
-            session.getTransaction().commit();
+                session.getTransaction().commit();
+            }
         }
     }
 
@@ -29,9 +32,12 @@ public class TopicDao implements Dao<Topic>
         try (Session session = sessionFactory.openSession())
         {
             topic = session.get(Topic.class, topicId);
-            Hibernate.initialize(topic.getPosts());
-            Hibernate.initialize(topic.getGroup());
-            Hibernate.initialize(topic.getAuthor());
+            if(topic != null)
+            {
+                Hibernate.initialize(topic.getPosts());
+                Hibernate.initialize(topic.getGroup());
+                Hibernate.initialize(topic.getAuthor());
+            }
         }
         return topic;
     }
@@ -39,13 +45,16 @@ public class TopicDao implements Dao<Topic>
     @Override
     public void update(Topic entity)
     {
-        try (Session session = sessionFactory.openSession())
+        if(entity != null)
         {
-            session.beginTransaction();
+            try (Session session = sessionFactory.openSession())
+            {
+                session.beginTransaction();
 
-            session.update(entity);
+                session.update(entity);
 
-            session.getTransaction().commit();
+                session.getTransaction().commit();
+            }
         }
     }
 
@@ -57,7 +66,8 @@ public class TopicDao implements Dao<Topic>
         try (Session session = sessionFactory.openSession())
         {
             topic = session.get(Topic.class, topicId);
-            if (topic != null) {
+            if (topic != null)
+            {
                 session.beginTransaction();
 
                 session.delete(topic);

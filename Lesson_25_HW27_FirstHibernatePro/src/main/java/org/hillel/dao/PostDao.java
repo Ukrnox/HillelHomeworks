@@ -12,13 +12,16 @@ public class PostDao implements Dao<Post>
     @Override
     public void create(Post entity)
     {
-        try (Session session = sessionFactory.openSession())
+        if(entity != null)
         {
-            session.beginTransaction();
+            try (Session session = sessionFactory.openSession())
+            {
+                session.beginTransaction();
 
-            session.save(entity);
+                session.save(entity);
 
-            session.getTransaction().commit();
+                session.getTransaction().commit();
+            }
         }
     }
 
@@ -29,8 +32,11 @@ public class PostDao implements Dao<Post>
         try (Session session = sessionFactory.openSession())
         {
             topic = session.get(Post.class, postId);
-            Hibernate.initialize(topic.getVotes());
-            Hibernate.initialize(topic.getAuthor());
+            if(topic != null)
+            {
+                Hibernate.initialize(topic.getVotes());
+                Hibernate.initialize(topic.getAuthor());
+            }
 
         }
         return topic;
@@ -39,13 +45,16 @@ public class PostDao implements Dao<Post>
     @Override
     public void update(Post entity)
     {
-        try (Session session = sessionFactory.openSession())
+        if(entity != null)
         {
-            session.beginTransaction();
+            try (Session session = sessionFactory.openSession())
+            {
+                session.beginTransaction();
 
-            session.update(entity);
+                session.update(entity);
 
-            session.getTransaction().commit();
+                session.getTransaction().commit();
+            }
         }
     }
 

@@ -12,13 +12,16 @@ public class GroupDao implements Dao<Group>
     @Override
     public void create(Group entity)
     {
-        try (Session session = sessionFactory.openSession())
+        if(entity != null)
         {
-            session.beginTransaction();
+            try (Session session = sessionFactory.openSession())
+            {
+                session.beginTransaction();
 
-            session.save(entity);
+                session.save(entity);
 
-            session.getTransaction().commit();
+                session.getTransaction().commit();
+            }
         }
     }
 
@@ -29,10 +32,11 @@ public class GroupDao implements Dao<Group>
         try (Session session = sessionFactory.openSession())
         {
             group = session.get(Group.class, groupId);
-
-            Hibernate.initialize(group.getTopics());
-
-            Hibernate.initialize(group.getUsers());
+            if (group != null)
+            {
+                Hibernate.initialize(group.getTopics());
+                Hibernate.initialize(group.getUsers());
+            }
         }
         return group;
     }
@@ -40,13 +44,16 @@ public class GroupDao implements Dao<Group>
     @Override
     public void update(Group entity)
     {
-        try (Session session = sessionFactory.openSession())
+        if(entity != null)
         {
-            session.beginTransaction();
+            try (Session session = sessionFactory.openSession())
+            {
+                session.beginTransaction();
 
-            session.update(entity);
+                session.update(entity);
 
-            session.getTransaction().commit();
+                session.getTransaction().commit();
+            }
         }
     }
 

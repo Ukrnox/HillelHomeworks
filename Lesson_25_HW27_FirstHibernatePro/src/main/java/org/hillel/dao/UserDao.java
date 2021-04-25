@@ -101,10 +101,13 @@ public class UserDao implements Dao<User>
         try (Session session = sessionFactory.openSession())
         {
             user = session.get(User.class, userId);
-            Hibernate.initialize(user.getGroups());
-            Hibernate.initialize(user.getTopics());
-            Hibernate.initialize(user.getPosts());
-            Hibernate.initialize(user.getVotes());
+            if (user != null)
+            {
+                Hibernate.initialize(user.getGroups());
+                Hibernate.initialize(user.getTopics());
+                Hibernate.initialize(user.getPosts());
+                Hibernate.initialize(user.getVotes());
+            }
         }
         return user;
     }
@@ -112,15 +115,18 @@ public class UserDao implements Dao<User>
     @Override
     public void update(User entity)
     {
-        Transaction transaction;
-        try (Session session = sessionFactory.openSession())
+        if(entity != null)
         {
-            transaction = session.beginTransaction();
+            Transaction transaction;
+            try (Session session = sessionFactory.openSession())
+            {
+                transaction = session.beginTransaction();
 
-            session.update(entity);
+                session.update(entity);
 
-            transaction.commit();
+                transaction.commit();
 
+            }
         }
     }
 
