@@ -24,13 +24,13 @@ public class Dog
         eating = false;
     }
 
-    public boolean isEating()
+    public synchronized boolean isEating()
     {
         log.info(this.getClass().getName() + " method : 'isEating()'");
         return eating;
     }
 
-    public void setEating(boolean eating)
+    public synchronized void setEating(boolean eating)
     {
         log.info(this.getClass().getName() + " method : 'setEating(boolean eating)'");
         this.eating = eating;

@@ -67,7 +67,7 @@ public class Human
         }
     }
 
-    public void fryOneMeat(Meat meat)
+    public synchronized void fryOneMeat(Meat meat)
     {
         log.info(this.getClass().getName() + " method : 'fryOneMeat()'");
         if (bonfire.isBurning(time))
@@ -77,7 +77,7 @@ public class Human
         }
     }
 
-    public Meat getRowMeat()
+    public synchronized Meat getRowMeat()
     {
         for (Meat meat : meats)
         {
@@ -157,7 +157,7 @@ public class Human
         return false;
     }
 
-    public Queue<Meat> getMeats()
+    public synchronized Queue<Meat> getMeats()
     {
         log.info(this.getClass().getName() + " method : 'getMeats()'");
         return meats;

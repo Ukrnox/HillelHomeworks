@@ -275,7 +275,7 @@ public class GUI
         refreshInfo();
     }
 
-    private void timeCheck()
+    private synchronized void timeCheck()
     {
         log.info(this.getClass().getName() + " method : 'timeCheck()'");
         if (!human.getBonfire().isBurning(time))
@@ -289,7 +289,7 @@ public class GUI
         }
     }
 
-    private void refreshInfo()
+    private synchronized void refreshInfo()
     {
         log.info(this.getClass().getName() + " method : 'refreshInfo()'");
         statusTextAreaHuman.setText(human.toString());
