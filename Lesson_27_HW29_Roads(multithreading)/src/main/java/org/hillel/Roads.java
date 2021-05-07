@@ -203,7 +203,7 @@ public class Roads
 
         Runnable runnableTrafficLight = () ->
         {
-            for (int i = 0; i < 100; i++)
+            while (true)
             {
                 changeTrafficLight();
                 try
