@@ -8,8 +8,9 @@
         </encoder>
     </appender>
 
+    <root level="info">
 <!--    <root level="debug">-->
-    <root level="error">
+<!--    <root level="error">-->
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
