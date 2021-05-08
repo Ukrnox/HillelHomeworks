@@ -2,6 +2,7 @@ package org.hillel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.concurrent.TimeUnit;
 
 public class Roads
@@ -11,10 +12,13 @@ public class Roads
     public static final int SCALE = 30;
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
-
-    private int indicator1 = 1;
-    private int indicator2 = 2;
-
+    private JPanel buttonsPanel;
+    private JButton tLightsSpeedButton1sec;
+    private JButton tLightsSpeedButton2sec;
+    private JButton tLightsSpeedButton3sec;
+    int tLightsSpeedInSeconds = 2;
+    private int tLightsIndicator1 = 1;
+    private int tLightsIndicator2 = 2;
     private final Car car1 = new Car(9, 0, 0, Color.YELLOW);
     private final Car car2 = new Car(0, 8, 1, Color.DARK_GRAY);
 
@@ -24,24 +28,37 @@ public class Roads
         movement();
     }
 
+    private void tLightsSpeedButtonsAction()
+    {
+        tLightsSpeedButton1sec = new JButton("ChangeTLSpeed - 1sec");
+        tLightsSpeedButton2sec = new JButton("ChangeTLSpeed - 2sec");
+        tLightsSpeedButton3sec = new JButton("ChangeTLSpeed - 3sec");
+        ActionListener tLightsSpeedAListener1sec = e -> tLightsSpeedInSeconds = 1;
+        ActionListener tLightsSpeedAListener2sec = e -> tLightsSpeedInSeconds = 2;
+        ActionListener tLightsSpeedAListener3sec = e -> tLightsSpeedInSeconds = 3;
+        tLightsSpeedButton1sec.addActionListener(tLightsSpeedAListener1sec);
+        tLightsSpeedButton2sec.addActionListener(tLightsSpeedAListener2sec);
+        tLightsSpeedButton3sec.addActionListener(tLightsSpeedAListener3sec);
+    }
+
     public synchronized void changeTrafficLight()
     {
-        if (indicator1 == 1)
+        if (tLightsIndicator1 == 1)
         {
-            indicator1 = 2;
-            indicator2 = 1;
+            tLightsIndicator1 = 2;
+            tLightsIndicator2 = 1;
         }
         else
         {
-            indicator1 = 1;
-            indicator2 = 2;
+            tLightsIndicator1 = 1;
+            tLightsIndicator2 = 2;
         }
         notifyAll();
     }
 
-    public synchronized void checkTrafficLight(Car car)
+    private synchronized void checkTrafficLight(Car car)
     {
-        while (car.getDirection() == 0 && car.carY == 12 && (indicator1 == 1 ||
+        while (car.getDirection() == 0 && car.carY == 12 && (tLightsIndicator1 == 1 ||
                 car2.carX > 5 && car2.carX < 12 && !car2.isStop()))
         {
             car.setStop(true);
@@ -54,7 +71,7 @@ public class Roads
                 e.printStackTrace();
             }
         }
-        while (car.getDirection() == 1 && car.carX == 5 && (indicator2 == 1 ||
+        while (car.getDirection() == 1 && car.carX == 5 && (tLightsIndicator2 == 1 ||
                 car1.carY > 5 && car1.carY < 12 && !car1.isStop()))
         {
             car.setStop(true);
@@ -146,7 +163,7 @@ public class Roads
                 drawRoads(graphics);
                 drawCar(graphics, car1, car1.getColor());
                 drawCar(graphics, car2, car2.getColor());
-                drawTrafficLight(graphics, indicator1);
+                drawTrafficLight(graphics, tLightsIndicator1);
             }
         };
     }
@@ -159,11 +176,17 @@ public class Roads
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         draws = mainDraw();
+        tLightsSpeedButtonsAction();
+        buttonsPanel = new JPanel();
+        buttonsPanel.add(tLightsSpeedButton1sec);
+        buttonsPanel.add(tLightsSpeedButton2sec);
+        buttonsPanel.add(tLightsSpeedButton3sec);
         frame.add(draws);
+        frame.add(BorderLayout.SOUTH, buttonsPanel);
         frame.setVisible(true);
     }
 
-    public void movement()
+    private void movement()
     {
         Runnable runnableCar1 = () ->
         {
@@ -208,7 +231,7 @@ public class Roads
                 changeTrafficLight();
                 try
                 {
-                    TimeUnit.SECONDS.sleep(2);
+                    TimeUnit.SECONDS.sleep(tLightsSpeedInSeconds);
                 }
                 catch (InterruptedException e)
                 {
