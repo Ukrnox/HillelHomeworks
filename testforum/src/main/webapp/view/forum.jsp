@@ -45,7 +45,7 @@
        <c:if test="${activeGroupId != null}">
             <form action="/testforum/topic/addTopic" method="get">
                  <label for="lname">Write a title for a new topic:</label>
-                   <input type="text" name="newTopicTitle" minlength="3" maxlength="10">
+                   <input type="text" name="newTopicTitle" minlength="3" maxlength="60">
                  <button type="submit" class="button nonActive">Create new topic</button>
             </form>
         </c:if>
