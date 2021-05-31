@@ -17,6 +17,6 @@
         </encoder>
     </appender>
     <root level="info">
-        <appender-ref ref="fileAppender" />
+        <appender-ref ref="fileAppender"/>
     </root>
 </configuration>

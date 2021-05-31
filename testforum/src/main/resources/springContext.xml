@@ -30,12 +30,12 @@
         <property name="password" value="28061988"/>
     </bean>
 
-<!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
-<!--        <property name="driverClassName" value="org.sqlite.JDBC"/>-->
-<!--        <property name="url" value="jdbc:sqlite:/opt/tomcat9/webapps/ROOT/WEB-INF/classes/forum.db"/>-->
-<!--        <property name="username" value=""/>-->
-<!--        <property name="password" value=""/>-->
-<!--    </bean>-->
+    <!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+    <!--        <property name="driverClassName" value="org.sqlite.JDBC"/>-->
+    <!--        <property name="url" value="jdbc:sqlite:/opt/tomcat9/webapps/ROOT/WEB-INF/classes/forum.sqlitesqlite"/>-->
+    <!--        <property name="username" value=""/>-->
+    <!--        <property name="password" value=""/>-->
+    <!--    </bean>-->
 
     <bean name="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
@@ -49,7 +49,7 @@
         </property>
         <property name="jpaProperties">
             <props>
-<!--                <prop key="hibernate.dialect">org.hibernate.dialect.SQLiteDialect</prop>-->
+                <!--                <prop key="hibernate.dialect">org.hibernate.dialect.SQLiteDialect</prop>-->
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">none</prop>
