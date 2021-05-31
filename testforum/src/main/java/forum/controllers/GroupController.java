@@ -43,7 +43,7 @@ public class GroupController
         if (user != null && group != null)
         {
             Cookie activeGroupCookie = new Cookie("activeGroup", String.valueOf(group.getId()));
-            activeGroupCookie.setPath("/testforum");
+            activeGroupCookie.setPath("/");
             activeGroupCookie.setMaxAge(24 * 60 * 60);
             response.addCookie(activeGroupCookie);
 

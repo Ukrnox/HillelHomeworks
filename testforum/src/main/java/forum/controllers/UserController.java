@@ -99,8 +99,8 @@ public class UserController
     {
         Cookie cookieLogin = new Cookie("login", login);
         Cookie cookiePassword = new Cookie("password", password);
-        cookieLogin.setPath("/testforum");
-        cookiePassword.setPath("/testforum");
+        cookieLogin.setPath("/");
+        cookiePassword.setPath("/");
         cookieLogin.setMaxAge(24 * 60 * 60);
         cookiePassword.setMaxAge(24 * 60 * 60);
         return new Cookie[]{cookieLogin, cookiePassword};

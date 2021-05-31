@@ -9,10 +9,10 @@ import org.springframework.data.repository.query.Param;
 public interface UserRepository extends JpaRepository<User, Long>
 {
     @Modifying
-    @Query(value = "UPDATE users u SET user_login = :newLogin WHERE u.id = :userId", nativeQuery = true)
+    @Query(value = "UPDATE users SET user_login = :newLogin WHERE id = :userId", nativeQuery = true)
     void changeUserLogin(@Param("newLogin") String newLogin, @Param("userId") Long userId);
 
     @Modifying
-    @Query(value = "UPDATE users u SET password = :newPassword WHERE u.id = :userId", nativeQuery = true)
+    @Query(value = "UPDATE users SET password = :newPassword WHERE id = :userId", nativeQuery = true)
     void changeUserPassword(@Param("newPassword") String newPassword, @Param("userId") Long userId);
 }

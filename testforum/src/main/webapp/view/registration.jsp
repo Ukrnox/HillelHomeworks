@@ -9,7 +9,7 @@
 <body>
 <br><br>
 <h1>Registration form</h1>
-<form action="/testforum/user/reg" method="get">
+<form action="/user/reg" method="get">
     Login:
     <br>
     <input  type=text name="login" minlength="3"/>

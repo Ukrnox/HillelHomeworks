@@ -21,7 +21,7 @@ public interface VoteRepository extends JpaRepository<Vote, Long>
     Vote findVotesByUserAndPostId(@Param("user_id") Long userId, @Param("post_Id") Long postId);
 
     @Modifying
-    @Query(value = "UPDATE votes v SET  downvotes = :downvotes, upvotes = :upvotes WHERE v.id = :voteId",
+    @Query(value = "UPDATE votes SET  downvotes = :downvotes, upvotes = :upvotes WHERE id = :voteId",
             nativeQuery = true)
     void changeVoteById(@Param("downvotes") Long downvotes,
                         @Param("upvotes") Long upvotes,

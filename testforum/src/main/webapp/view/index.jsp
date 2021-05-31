@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>Welcome!</h1>
-<form action="/testforum/user/login" method="get">
+<form action="/user/login" method="get">
     Login:
      <br>
     <input type="text" name="login" minlength="3"/>
@@ -20,7 +20,7 @@
     <br><br>
     <button class="button">Login</button>
 </form>
-<form action="/testforum/user/regPage" method="get">
+<form action="/user/regPage" method="get">
    <button class="button">Registrarion</button>
 </form>
 </body>

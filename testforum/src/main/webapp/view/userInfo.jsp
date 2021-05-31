@@ -13,25 +13,25 @@
   <h1>${userName}</h1>
 </div>
 <div class="topnav">
-<form action="/testforum/userinfo/">
+<form action="/userinfo/">
 <button class="button active">UserInfo</button>
 </form>
-<form action="/testforum/">
+<form action="/">
 <button class="button nonActive">Back to Forum</button>
 </form>
-<form action="/testforum/exit" method="get">
+<form action="/exit" method="get">
 <button class="button nonActive">Exit</button>
 </form>
 </div>
 <div class="row">
   <div class="column side">
-      <form action="/testforum/userinfo/edituserconfig" method="get">
+      <form action="/userinfo/edituserconfig" method="get">
       <button type="submit" class="button nonActive">Edit user config</button>
       </form>
-      <form action="/testforum/userinfo/topics" method="get">
+      <form action="/userinfo/topics" method="get">
       <button type="submit" class="button nonActive">YourTopics</button>
       </form>
-      <form action="/testforum/userinfo/posts" method="get">
+      <form action="/userinfo/posts" method="get">
       <button type="submit" class="button nonActive">YourPosts</button>
       </form>
   </div>
@@ -39,7 +39,7 @@
 <div class="editeduserinfo" ${editeduserinfo}>
 Your login: ${userName}
 <br>
-<form action="/testforum/userinfo/changeuserlogin" method="get">
+<form action="/userinfo/changeuserlogin" method="get">
   Enter your new login:
   <input type="text" name="newLogin" minlength="3" maxlength="10">
   Enter your password:
@@ -47,7 +47,7 @@ Your login: ${userName}
   ${wrongInformation}
   <button class="button nonActive">Change your Login</button>
 </form>
-<form action="/testforum/userinfo/changeuserpassword" method="get">
+<form action="/userinfo/changeuserpassword" method="get">
   Enter your old password:
   <input type="text" name="oldPassword" minlength="3" maxlength="10">
   Enter your new password:
@@ -61,7 +61,7 @@ Your login: ${userName}
        <c:if test="${topics != null}">
             <h3>Your Topics</h3>
             <c:forEach var="topic" items="${topics}">
-            <form action="/testforum/topic/${topic.id}" method="get">
+            <form action="/topic/${topic.id}" method="get">
                  <button class="button active">Group: ${topic.group.name} Title: ${topic.title}</button>
             </form>
             </c:forEach>
