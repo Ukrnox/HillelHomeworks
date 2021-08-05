@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    background-color: #7FFFD4;
+}
+
+.header {
+    text-align: center;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+input[type=text]:focus {
+    border: 3px solid #555;
+}
+
+.topnav {
+    overflow: hidden;
+}
+
+.topnav button {
+    float: left;
+    display: block;
+    color: black;
+    width: 33.3%;
+    text-align: center;
+    height: 40px;
+    border: none;
+    text-decoration: none;
+}
+
+.topnav button:hover {
+    background-color: #ADFF2F;
+    color: black;
+    height: 45px;
+}
+
+.column.side button {
+    float: left;
+    border: none;
+    display: block;
+    color: black;
+    width: 98%;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.column.side button:hover {
+    background-color: #ADFF2F;
+    color: black;
+    width: 100%;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+.nonActive {
+    background-color: #FFFF00;
+}
+
+.column {
+    float: left;
+}
+
+.column.side {
+    width: 20%;
+}
+
+.column.middle {
+    text-align: center;
+    width: 80%;
+}
+
+.column.middle button {
+    float: left;
+    border: none;
+    display: block;
+    color: black;
+    width: 98%;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.column.middle button:hover {
+    background-color: #ADFF2F;
+    color: black;
+    width: 100%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+@media screen and (max-width: 600px) {
+    .column.side, .column.middle {
+        width: 100%;
+    }
+}
