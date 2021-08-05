@@ -10,8 +10,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class GUI
-{
+public class GUI {
     private final JFrame frame = new JFrame("Dog live");
 
     private final Time time = new Time();
@@ -51,219 +50,179 @@ public class GUI
     private final JButton restart = new JButton("Restart");
     private final JButton hunting = new JButton("Hunting");
 
-    private JLabel iconRedactor(File file)
-    {
+    private JLabel iconRedactor(File file) {
         log.info(this.getClass().getName() + " method : 'JLabel iconRedactor(File file)'");
         Image picture;
         JLabel jLabel = null;
-        try
-        {
+        try {
             picture = ImageIO.read(file);
             picture = picture.getScaledInstance(200, 200, 1);
             jLabel = new JLabel(new ImageIcon(picture));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'JLabel iconRedactor(File file)'");
             e.printStackTrace();
         }
         return jLabel;
     }
 
-    private void setActiveBonfirePic()
-    {
+    private void setActiveBonfirePic() {
         log.info(this.getClass().getName() + " method : 'setActiveBonfirePic()'");
-        try
-        {
+        try {
             Image bonfire = ImageIO.read(activeBonfire);
             bonfire = bonfire.getScaledInstance(200, 200, 1);
             bonfireLabel.setIcon(new ImageIcon(bonfire));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'setActiveBonfirePic()'");
             e.printStackTrace();
         }
     }
 
-    private void setActiveBonfireMeatPic()
-    {
+    private void setActiveBonfireMeatPic() {
         log.info(this.getClass().getName() + " method : 'BonfireMeatPic()'");
-        try
-        {
+        try {
             Image bonfire = ImageIO.read(activeBonfireMeat);
             bonfire = bonfire.getScaledInstance(200, 200, 1);
             bonfireLabel.setIcon(new ImageIcon(bonfire));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'BonfireMeatPic()'");
             e.printStackTrace();
         }
     }
 
-    private void setExtinctBonfirePic()
-    {
+    private void setExtinctBonfirePic() {
         log.info(this.getClass().getName() + " method : 'setExtinctBonfirePic()'");
-        try
-        {
+        try {
             Image bonfire = ImageIO.read(extinctBonfire);
             bonfire = bonfire.getScaledInstance(200, 200, 1);
             bonfireLabel.setIcon(new ImageIcon(bonfire));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'setExtinctBonfirePic()'");
             e.printStackTrace();
         }
     }
 
-    private void setFunnyHumanHuntingPic()
-    {
+    private void setFunnyHumanHuntingPic() {
         log.info(this.getClass().getName() + " method : 'setFunnyHumanHuntingPic()'");
-        try
-        {
+        try {
             Image hunting = ImageIO.read(funnyHumanHunting);
             hunting = hunting.getScaledInstance(200, 200, 1);
             humanLabel.setIcon(new ImageIcon(hunting));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'setFunnyHumanHuntingPic() -> " +
                     "ImageIO.read(funnyHumanHunting);'");
             e.printStackTrace();
         }
     }
 
-    private void setWaitingHumanPic()
-    {
+    private void setWaitingHumanPic() {
         log.info(this.getClass().getName() + " method : 'setHuntingPic()'");
-        try
-        {
+        try {
             Image hunting = ImageIO.read(funnyHumanWaiting);
             hunting = hunting.getScaledInstance(200, 200, 1);
             humanLabel.setIcon(new ImageIcon(hunting));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'setHuntingPic()'");
             e.printStackTrace();
         }
     }
 
-    private void setUsualHumanPic()
-    {
+    private void setUsualHumanPic() {
         log.info(this.getClass().getName() + " method : 'setUsualHumanPic()'");
-        try
-        {
+        try {
             Image funnyHuman = ImageIO.read(this.funnyHuman);
             funnyHuman = funnyHuman.getScaledInstance(200, 200, 1);
             humanLabel.setIcon(new ImageIcon(funnyHuman));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'setUsualHumanPic()'");
             e.printStackTrace();
         }
     }
 
-    private void setEatingDogPic()
-    {
+    private void setEatingDogPic() {
         log.info(this.getClass().getName() + " method : 'setEatingDogPic()'");
-        try
-        {
+        try {
             Image dog = ImageIO.read(dogEating);
             dog = dog.getScaledInstance(200, 200, 1);
             dogLabel.setIcon(new ImageIcon(dog));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'setEatingDogPic()'");
             e.printStackTrace();
         }
     }
 
-    private synchronized void setHuntingDogPic()
-    {
+    private synchronized void setHuntingDogPic() {
         log.info(this.getClass().getName() + " method : 'setHuntingDogPic()'");
-        while (human.getDog().isEating())
-        {
+        while (human.getDog().isEating()) {
             setWaitingHumanPic();
-            try
-            {
+            try {
                 wait();
             }
-            catch (InterruptedException e)
-            {
+            catch (InterruptedException e) {
                 log.error(this.getClass().getName() + " method : 'setHuntingDogPic() -> wait();'");
                 e.printStackTrace();
             }
         }
-        try
-        {
+        try {
             Image dog = ImageIO.read(dogHunting);
             dog = dog.getScaledInstance(200, 200, 1);
             dogLabel.setIcon(new ImageIcon(dog));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'setHuntingDogPic()'");
             e.printStackTrace();
         }
     }
 
-    private synchronized void setUsualDogPic()
-    {
+    private synchronized void setUsualDogPic() {
         log.info(this.getClass().getName() + " method : 'setUsualDogPic()'");
-        try
-        {
+        try {
             Image dog = ImageIO.read(dogImg);
             dog = dog.getScaledInstance(200, 200, 1);
             dogLabel.setIcon(new ImageIcon(dog));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'setUsualDogPic()'");
             e.printStackTrace();
         }
         notifyAll();
     }
 
-    private void gameOverIconRedactor()
-    {
+    private void gameOverIconRedactor() {
         log.info(this.getClass().getName() + " method : 'gameOverIconRedactor()'");
-        try
-        {
+        try {
             Image gameOverPicture = ImageIO.read(gameOverPic);
             gameOverPicture = gameOverPicture.getScaledInstance(200, 200, 1);
             bonfireLabel.setIcon(new ImageIcon(gameOverPicture));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'gameOverIconRedactor() -> ImageIO.read(gameOverPic);'");
             e.printStackTrace();
         }
 
-        try
-        {
+        try {
             Image dogPicture = ImageIO.read(badImg);
             dogPicture = dogPicture.getScaledInstance(200, 200, 1);
             dogLabel.setIcon(new ImageIcon(dogPicture));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'gameOverIconRedactor() -> ImageIO.read(badImg);'");
             e.printStackTrace();
         }
 
-        try
-        {
+        try {
             Image humanPicture = ImageIO.read(frustratedHuman);
             humanPicture = humanPicture.getScaledInstance(200, 200, 1);
             humanLabel.setIcon(new ImageIcon(humanPicture));
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             log.error(this.getClass().getName() + " method : 'gameOverIconRedactor() -> ImageIO.read(frustratedHuman);'");
             e.printStackTrace();
         }
@@ -275,29 +234,24 @@ public class GUI
         refreshInfo();
     }
 
-    private synchronized void timeCheck()
-    {
+    private synchronized void timeCheck() {
         log.info(this.getClass().getName() + " method : 'timeCheck()'");
-        if (!human.getBonfire().isBurning(time))
-        {
+        if (!human.getBonfire().isBurning(time)) {
             setExtinctBonfirePic();
         }
-        if (!dog.isAlive(time))
-        {
+        if (!dog.isAlive(time)) {
             textArea.append("The dog died of hunger!");
             gameOverIconRedactor();
         }
     }
 
-    private synchronized void refreshInfo()
-    {
+    private synchronized void refreshInfo() {
         log.info(this.getClass().getName() + " method : 'refreshInfo()'");
         statusTextAreaHuman.setText(human.toString());
         statusTextAreaMeats.setText(human.printMeats());
     }
 
-    private void spend1hourButtonAction()
-    {
+    private void spend1hourButtonAction() {
         spend1hour.addActionListener(e ->
         {
             log.info(this.getClass().getName() + " method : 'buttonsActions() -> spend1hour.addActionListener'");
@@ -308,13 +262,11 @@ public class GUI
         });
     }
 
-    private void makeFireButtonAction()
-    {
+    private void makeFireButtonAction() {
         makeFire.addActionListener(e ->
         {
             log.info(this.getClass().getName() + " method : 'buttonsActions() -> makeFire.addActionListener'");
-            if (!human.getBonfire().isBurning() && human.getBonfire().getCapacity() > 0)
-            {
+            if (!human.getBonfire().isBurning() && human.getBonfire().getCapacity() > 0) {
                 time.addMinutes(30);
                 human.makeFire();
                 setActiveBonfirePic();
@@ -322,19 +274,16 @@ public class GUI
                 timeCheck();
                 refreshInfo();
             }
-            else if (human.getBonfire().isBurning())
-            {
+            else if (human.getBonfire().isBurning()) {
                 textArea.append("Bonfire is already burning!\n");
             }
-            else
-            {
+            else {
                 textArea.append("Add more wood to bonfire!\n");
             }
         });
     }
 
-    private void addWoodButtonAction()
-    {
+    private void addWoodButtonAction() {
         addWood.addActionListener(e ->
         {
             log.info(this.getClass().getName() + " method : 'buttonsActions() -> addWood.addActionListener'");
@@ -346,33 +295,27 @@ public class GUI
         });
     }
 
-    private void feedDogButtonAction()
-    {
+    private void feedDogButtonAction() {
         feedDog.addActionListener(e ->
         {
             log.info(this.getClass().getName() + " method : 'buttonsActions() -> feedDog.addActionListener'");
             Runnable r = () ->
             {
-                if (human.getMeats().isEmpty())
-                {
+                if (human.getMeats().isEmpty()) {
                     textArea.append("You need  to go hunting!\n");
                 }
-                else
-                {
+                else {
                     human.getDog().setEating(true);
                     Meat pollMeat = human.getMeats().poll();
                     refreshInfo();
                     setEatingDogPic();
                     textArea.append("The Dog is eating!\n");
-                    for (int i = 0; i < 3; i++)
-                    {
-                        try
-                        {
+                    for (int i = 0; i < 3; i++) {
+                        try {
                             time.addMinutes(5);
                             TimeUnit.MILLISECONDS.sleep(1500);
                         }
-                        catch (InterruptedException interruptedE)
-                        {
+                        catch (InterruptedException interruptedE) {
                             log.error(this.getClass().getName() + " method : 'buttonsActions() -> " +
                                     "feedDog.addActionListener -> TimeUnit.SECONDS.sleep(1);'");
                             interruptedE.printStackTrace();
@@ -392,8 +335,7 @@ public class GUI
         });
     }
 
-    private void exitButtonAction()
-    {
+    private void exitButtonAction() {
         exit.addActionListener(e ->
         {
             log.info(this.getClass().getName() + " method : 'buttonsActions() -> exit.addActionListener'");
@@ -401,8 +343,7 @@ public class GUI
         });
     }
 
-    private void restartButtonAction()
-    {
+    private void restartButtonAction() {
         restart.addActionListener(e ->
         {
             log.info(this.getClass().getName() + " method : 'buttonsActions() -> restart.addActionListener'");
@@ -411,28 +352,23 @@ public class GUI
         });
     }
 
-    private void fryOneMeetButtonAction()
-    {
+    private void fryOneMeetButtonAction() {
         fryOneMeet.addActionListener(e ->
         {
             log.info(this.getClass().getName() + " method : 'buttonsActions() -> fryOneMeet.addActionListener'");
             Runnable r = () ->
             {
-                if (human.getBonfire().isBurning() && !human.getMeats().isEmpty() && human.checkRowMeats())
-                {
+                if (human.getBonfire().isBurning() && !human.getMeats().isEmpty() && human.checkRowMeats()) {
                     southPanel.setVisible(false);
                     Meat rowMeat = human.getRowMeat();
                     setActiveBonfireMeatPic();
                     refreshInfo();
-                    for (int i = 0; i < 5; i++)
-                    {
+                    for (int i = 0; i < 5; i++) {
                         textArea.append("You are frying meat!\n");
-                        try
-                        {
+                        try {
                             TimeUnit.SECONDS.sleep(1);
                         }
-                        catch (InterruptedException interruptedException)
-                        {
+                        catch (InterruptedException interruptedException) {
                             log.error(this.getClass().getName() + " method : 'buttonsActions() -> " +
                                     "fryOneMeet.addActionListener -> TimeUnit.SECONDS.sleep(1);'");
                             interruptedException.printStackTrace();
@@ -446,16 +382,13 @@ public class GUI
                     textArea.append("You fried meat.\n");
                     southPanel.setVisible(true);
                 }
-                else if (human.getMeats().isEmpty())
-                {
+                else if (human.getMeats().isEmpty()) {
                     textArea.append("You need to go hunting!\n");
                 }
-                else if (!human.getBonfire().isBurning())
-                {
+                else if (!human.getBonfire().isBurning()) {
                     textArea.append("You need to make a fire.\n");
                 }
-                else
-                {
+                else {
                     textArea.append("You don't have row meat!\n");
                 }
             };
@@ -465,8 +398,7 @@ public class GUI
         });
     }
 
-    private void huntingButtonAction()
-    {
+    private void huntingButtonAction() {
         hunting.addActionListener(e ->
         {
             log.info(this.getClass().getName() + " method : 'buttonsActions() -> hunting.addActionListener'");
@@ -475,18 +407,15 @@ public class GUI
                 southPanel.setVisible(false);
                 setHuntingDogPic();
                 setFunnyHumanHuntingPic();
-                for (int i = 0; i < 5; i++)
-                {
+                for (int i = 0; i < 5; i++) {
                     textArea.append("You are Hunting!\n");
-                    try
-                    {
+                    try {
                         time.addMinutes(10);
                         timeCheck();
                         refreshInfo();
                         TimeUnit.MILLISECONDS.sleep(1500);
                     }
-                    catch (InterruptedException interruptedE)
-                    {
+                    catch (InterruptedException interruptedE) {
                         log.error(this.getClass().getName() + " method : 'buttonsActions() -> hunting.addActionListener ->" +
                                 "TimeUnit.SECONDS.sleep(2);'");
                         interruptedE.printStackTrace();
@@ -505,8 +434,7 @@ public class GUI
         });
     }
 
-    private void buttonsActions()
-    {
+    private void buttonsActions() {
         log.info(this.getClass().getName() + " method : 'buttonsActions()'");
         spend1hourButtonAction();
         makeFireButtonAction();
@@ -518,17 +446,18 @@ public class GUI
         huntingButtonAction();
     }
 
-    public GUI()
-    {
+    public GUI() {
         Font no_name_font = new Font("No name", Font.BOLD, 10);
 
         log.info(this.getClass().getName() + " constructor : 'GUI()'");
         statusTextAreaHuman = new JTextArea("Logging:\n", 1, 8);
         statusTextAreaHuman.setFont(no_name_font);
+        statusTextAreaHuman.setEditable(false);
         JScrollPane scrollPaneHuman = new JScrollPane(statusTextAreaHuman);
 
         statusTextAreaMeats = new JTextArea("Logging:\n", 1, 8);
         statusTextAreaMeats.setFont(no_name_font);
+        statusTextAreaMeats.setEditable(false);
         JScrollPane scrollPaneMeats = new JScrollPane(statusTextAreaMeats);
 
         refreshInfo();
@@ -536,6 +465,7 @@ public class GUI
         textArea = new JTextArea("Logging:\n", 8, 2);
         textArea.setFont(new Font("No name", Font.PLAIN, 14));
         JScrollPane scrollPaneTextArea = new JScrollPane(textArea);
+        textArea.setEditable(false);
 
         dogLabel = iconRedactor(dogImg);
         humanLabel = iconRedactor(funnyHuman);
